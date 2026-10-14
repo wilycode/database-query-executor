@@ -67,7 +67,7 @@ It does **not** open database connections, construct SQL, perform logging, cache
 ## Requirements
 
 - PHP **8.4 or newer**.
-- [`wilycode/database-driver:^0.1`](https://github.com/wilycode/database-driver) — database driver contract.
+- [`wilycode/database:^0.1`](https://github.com/wilycode/database) — database driver contract.
 - [`wilycode/database-query:^0.1`](https://github.com/wilycode/database-query) — `QueryInterface`, compiled queries, and binder contract.
 - A concrete driver and binder, installed **separately** for the database you use.
 
@@ -82,10 +82,10 @@ composer require wilycode/database-query-executor
 For a PDO-based application, install its adapter too:
 
 ```bash
-composer require wilycode/database-driver-pdo
+composer require wilycode/database-pdo
 ```
 
-For MySQLi, use `wilycode/database-driver-mysqli` instead. Only install the adapter you need.
+For MySQLi, use `wilycode/database-mysqli` instead. Only install the adapter you need.
 
 ## Quick start (PDO)
 
@@ -419,9 +419,9 @@ These are separate packages; their existence is **not required** to use the base
 | Package | Purpose |
 | --- | --- |
 | [`wilycode/database-query`](https://github.com/wilycode/database-query) | Build and compile driver-independent SQL queries. |
-| [`wilycode/database-driver`](https://github.com/wilycode/database-driver) | Database driver interface and shared exceptions. |
-| [`wilycode/database-driver-pdo`](https://github.com/wilycode/database-driver-pdo) | PDO driver and canonical query binder. |
-| [`wilycode/database-driver-mysqli`](https://github.com/wilycode/database-driver-mysqli) | MySQLi driver and canonical query binder. |
+| [`wilycode/database`](https://github.com/wilycode/database) | Database driver interface and shared exceptions. |
+| [`wilycode/database-pdo`](https://github.com/wilycode/database-pdo) | PDO driver and canonical query binder. |
+| [`wilycode/database-mysqli`](https://github.com/wilycode/database-mysqli) | MySQLi driver and canonical query binder. |
 | [`wilycode/database-model`](https://github.com/wilycode/database-model) | Model metadata and hydration layer. |
 
 ## Development
