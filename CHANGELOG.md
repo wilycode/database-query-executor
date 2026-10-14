@@ -2,6 +2,13 @@
 
 All notable changes to WilyCode Database Query Executor will be documented here.
 
+## [Unreleased]
+
+### Changed
+
+- Updated the shared database contract dependency to `wilycode/database`.
+- Updated installation examples and package references to the renamed database packages.
+
 ## [0.1.0] - 2026-10-13
 
 ### Added
