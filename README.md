@@ -13,6 +13,17 @@
 >
 > **[Explore the WilyCode ecosystem →](https://github.com/wilycode/wilycode)**
 
+## Platform detection
+
+QueryExecutor 0.2 accepts an optional third constructor argument, `?DialectInterface $dialect = null`. An explicit choice wins. Otherwise it requires `PlatformProviderInterface` on the driver and maps mysql, pgsql or sqlite to the corresponding built-in dialect. Unknown platforms (including sqlsrv/oci for now) and drivers without that capability throw before binding/execution. Pass an explicit dialect for a custom driver. The standalone Query default is never used to guess a connection's platform.
+
+```php
+$executor = new QueryExecutor($database, $binder); // automatic for updated PDO/MySQLi drivers
+$executor = new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\PostgreSqlDialect());
+```
+
+Requires database >=0.1.2 and database-query >=0.2. Update drivers to versions implementing the platform provider before switching an existing two-argument executor. Raw and compiled SQL remain unchanged; getLastInsertId() and transactions remain driver operations. Release database and query first, then driver adapters, then executor. These minimum versions are proposed releases and are not published by this change.
+
 ## Table of contents
 
 - [Overview](#overview)

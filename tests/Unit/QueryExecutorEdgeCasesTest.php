@@ -23,7 +23,7 @@ final class QueryExecutorEdgeCasesTest extends TestCase
         $database->expects(self::once())->method('fetchColumn')
             ->with('SELECT id FROM users', [], 0, [])->willReturn(5);
 
-        self::assertSame(5, (new QueryExecutor($database, $binder))->fetchColumn($query));
+        self::assertSame(5, (new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect()))->fetchColumn($query));
     }
 
     public function testNegativeColumnIndexIsRejectedBeforeCompiling(): void
@@ -36,7 +36,7 @@ final class QueryExecutorEdgeCasesTest extends TestCase
         $database->expects(self::never())->method('fetchColumn');
 
         $this->expectException(InvalidArgumentException::class);
-        (new QueryExecutor($database, $binder))->fetchColumn($query, -1);
+        (new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect()))->fetchColumn($query, -1);
     }
 
     public function testFetchReturnsEmptyArrayForNoRow(): void
@@ -44,7 +44,7 @@ final class QueryExecutorEdgeCasesTest extends TestCase
         [$query, $binder] = $this->boundQuery('SELECT id FROM users');
         $database = $this->createMock(DatabaseInterface::class);
         $database->expects(self::once())->method('fetch')->willReturn([]);
-        self::assertSame([], (new QueryExecutor($database, $binder))->fetch($query));
+        self::assertSame([], (new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect()))->fetch($query));
     }
 
     public function testFetchAllReturnsEmptyArrayForNoRows(): void
@@ -52,7 +52,7 @@ final class QueryExecutorEdgeCasesTest extends TestCase
         [$query, $binder] = $this->boundQuery('SELECT id FROM users');
         $database = $this->createMock(DatabaseInterface::class);
         $database->expects(self::once())->method('fetchAll')->willReturn([]);
-        self::assertSame([], (new QueryExecutor($database, $binder))->fetchAll($query));
+        self::assertSame([], (new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect()))->fetchAll($query));
     }
 
     public function testFetchColumnCanReturnNull(): void
@@ -60,7 +60,7 @@ final class QueryExecutorEdgeCasesTest extends TestCase
         [$query, $binder] = $this->boundQuery('SELECT id FROM users');
         $database = $this->createMock(DatabaseInterface::class);
         $database->expects(self::once())->method('fetchColumn')->willReturn(null);
-        self::assertNull((new QueryExecutor($database, $binder))->fetchColumn($query));
+        self::assertNull((new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect()))->fetchColumn($query));
     }
 
     public function testBindExceptionIsNotSwallowed(): void
@@ -74,7 +74,7 @@ final class QueryExecutorEdgeCasesTest extends TestCase
         $database->expects(self::never())->method('execute');
 
         $this->expectExceptionMessage('Invalid binding');
-        (new QueryExecutor($database, $binder))->execute($query);
+        (new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect()))->execute($query);
     }
 
     public function testDriverExceptionIsNotSwallowed(): void
@@ -84,7 +84,7 @@ final class QueryExecutorEdgeCasesTest extends TestCase
         $database->method('fetch')->willThrowException(new RuntimeException('Driver failed'));
 
         $this->expectExceptionMessage('Driver failed');
-        (new QueryExecutor($database, $binder))->fetch($query);
+        (new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect()))->fetch($query);
     }
 
     public function testInTransactionCanBeFalse(): void
@@ -92,7 +92,7 @@ final class QueryExecutorEdgeCasesTest extends TestCase
         $database = $this->createMock(DatabaseInterface::class);
         $database->expects(self::once())->method('inTransaction')->willReturn(false);
         $binder = $this->createMock(BinderInterface::class);
-        self::assertFalse((new QueryExecutor($database, $binder))->inTransaction());
+        self::assertFalse((new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect()))->inTransaction());
     }
 
     public function testJoinedTransactionPropagatesExceptionsWithoutOpeningNewTransaction(): void
@@ -129,7 +129,7 @@ final class QueryExecutorEdgeCasesTest extends TestCase
         $binder = $this->createMock(BinderInterface::class);
         $binder->expects(self::never())->method('bind');
 
-        self::assertSame('100', (new QueryExecutor($database, $binder))->getLastInsertId());
+        self::assertSame('100', (new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect()))->getLastInsertId());
     }
 
     /** @return array{QueryInterface, BinderInterface} */
