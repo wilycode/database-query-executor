@@ -27,7 +27,7 @@ final class QueryExecutorTest extends TestCase
             ->with('UPDATE users SET active = ?', [1], ['i'])
             ->willReturn(3);
 
-        self::assertSame(3, new QueryExecutor($database, $binder)->execute($query));
+        self::assertSame(3, new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect())->execute($query));
     }
 
     public function testReadMethodsDelegateBoundQuery(): void
@@ -45,7 +45,7 @@ final class QueryExecutorTest extends TestCase
 
         self::assertSame(
             ['id' => 7, 'name' => 'Ada'],
-            new QueryExecutor($database, $binder)->fetch($query),
+            new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect())->fetch($query),
         );
     }
 
@@ -64,7 +64,7 @@ final class QueryExecutorTest extends TestCase
 
         self::assertSame(
             [['id' => 1], ['id' => 2]],
-            new QueryExecutor($database, $binder)->fetchAll($query),
+            new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect())->fetchAll($query),
         );
     }
 
@@ -83,7 +83,7 @@ final class QueryExecutorTest extends TestCase
 
         self::assertSame(
             'Ada',
-            new QueryExecutor($database, $binder)->fetchColumn($query, 1),
+            new QueryExecutor($database, $binder, new \WilyCode\Database\Query\Dialect\MySqlDialect())->fetchColumn($query, 1),
         );
     }
 
